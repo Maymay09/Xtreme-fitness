@@ -1,229 +1,677 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>XTREME Fit | Personal Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;}
-  :root{
-    --black:#0a0a0a;
-    --white:#f5f3ee;
-    --accent:#e84747;
-    --gray:#1a1a1a;
-    --muted:#888;
-    --font-display:'Bebas Neue',sans-serif;
-    --font-body:'DM Sans',sans-serif;
-  }
-  html{scroll-behavior:smooth;}
-  body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#0a0a0a;
+  --white:#f5f3ee;
+  --accent:#e84747;
+  --gray:#1a1a1a;
+  --muted:#888;
+  --font-display:'Bebas Neue',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.6;overflow-x:hidden;}
 
-  /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);}
-  .logo{font-family:var(--font-display);font-size:1.6rem;letter-spacing:3px;color:var(--white);}
-  .logo span{color:var(--accent);}
-  .nav-links{display:flex;gap:2rem;list-style:none;}
-  .nav-links a{color:rgba(245,243,238,0.6);text-decoration:none;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s;}
-  .nav-links a:hover{color:var(--accent);}
-  .nav-cta{background:var(--accent);color:var(--black);padding:.55rem 1.4rem;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:opacity .2s;}
-  .nav-cta:hover{opacity:.85;}
+/* ── UTILS ── */
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
 
-  /* HERO */
-  #home{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;overflow:hidden;}
-  .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#1a1209 60%,#0a0a0a 100%);}
-  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(232,197,71,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(232,197,71,0.04) 1px,transparent 1px);background-size:60px 60px;}
-  .hero-circle{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:600px;height:600px;border-radius:50%;border:1px solid rgba(232,197,71,0.1);pointer-events:none;}
-  .hero-circle::before{content:'';position:absolute;inset:40px;border-radius:50%;border:1px solid rgba(232,197,71,0.06);}
-  .hero-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;font-weight:500;}
-  .hero-title{font-family:var(--font-display);font-size:clamp(4rem,9vw,8rem);line-height:.95;letter-spacing:2px;margin-bottom:1.5rem;max-width:700px;}
-  .hero-title span{color:var(--accent);}
-  .hero-sub{color:rgba(245,243,238,0.55);font-size:15px;max-width:380px;margin-bottom:2.5rem;line-height:1.7;}
-  .hero-actions{display:flex;gap:1rem;align-items:center;}
-  .btn-primary{background:var(--accent);color:var(--black);padding:.9rem 2.2rem;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:opacity .2s;}
-  .btn-primary:hover{opacity:.85;}
-  .btn-ghost{background:transparent;color:var(--white);padding:.9rem 2.2rem;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;border:1px solid rgba(255,255,255,0.2);cursor:pointer;transition:border-color .2s;}
-  .btn-ghost:hover{border-color:var(--accent);}
-  .hero-stats{position:absolute;right:3rem;bottom:5rem;display:flex;flex-direction:column;gap:2rem;}
-  .stat{text-align:right;}
-  .stat-num{font-family:var(--font-display);font-size:2.4rem;color:var(--accent);line-height:1;}
-  .stat-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.5rem;
+  background:rgba(10,10,10,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.logo{font-family:var(--font-display);font-size:1.5rem;letter-spacing:3px;}
+.logo span{color:var(--accent);}
 
-  /* SECTIONS */
-  section{padding:6rem 3rem;}
-  .section-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500;}
-  .section-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);line-height:1;letter-spacing:1px;margin-bottom:1.5rem;}
-  .section-sub{color:rgba(245,243,238,0.55);max-width:480px;margin-bottom:3rem;}
+.hamburger{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:4px;
+}
+.hamburger span{
+  display:block;width:24px;height:2px;
+  background:var(--white);transition:all .3s;
+}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
-  /* ABOUT */
-  #about{background:var(--gray);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
-  .about-img{aspect-ratio:3/4;background:linear-gradient(160deg,#1e1a10,#0a0a0a);position:relative;overflow:hidden;}
-  .about-img-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:8rem;color:rgba(232,197,71,0.08);letter-spacing:5px;}
-  .about-img-badge{position:absolute;bottom:2rem;left:2rem;background:var(--accent);color:var(--black);padding:.8rem 1.4rem;}
-  .about-img-badge strong{display:block;font-family:var(--font-display);font-size:2rem;line-height:1;}
-  .about-img-badge span{font-size:11px;letter-spacing:2px;text-transform:uppercase;}
-  .about-features{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem;}
-  .feat{display:flex;align-items:flex-start;gap:1rem;padding:1.2rem;border:1px solid rgba(255,255,255,0.06);}
-  .feat-icon{width:36px;height:36px;background:rgba(232,197,71,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
-  .feat-text strong{display:block;font-size:14px;margin-bottom:.2rem;}
-  .feat-text span{color:var(--muted);font-size:13px;}
+.nav-right{display:flex;align-items:center;gap:2rem;}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{
+  color:rgba(245,243,238,0.6);font-size:12px;
+  letter-spacing:1.5px;text-transform:uppercase;transition:color .2s;
+}
+.nav-links a:hover{color:var(--accent);}
 
-  /* PROGRAMS */
-  #programs{background:var(--black);}
-  .programs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.06);}
-  .program-card{background:var(--black);padding:2.5rem 2rem;transition:background .2s;cursor:pointer;}
-  .program-card:hover{background:var(--gray);}
-  .program-num{font-family:var(--font-display);font-size:4rem;color:rgba(232,197,71,0.15);line-height:1;margin-bottom:1rem;}
-  .program-name{font-family:var(--font-display);font-size:1.5rem;letter-spacing:1px;margin-bottom:.8rem;}
-  .program-desc{color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:1.5rem;}
-  .program-tag{display:inline-block;background:rgba(232,197,71,0.1);color:var(--accent);padding:.3rem .8rem;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;}
+.nav-actions{display:flex;align-items:center;gap:1rem;}
+.cart-btn{
+  background:none;border:none;cursor:pointer;
+  color:var(--white);font-size:20px;position:relative;
+}
+.cart-count{
+  position:absolute;top:-6px;right:-8px;
+  background:var(--accent);color:var(--black);
+  font-size:10px;font-weight:700;
+  width:16px;height:16px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-cta{
+  background:var(--accent);color:var(--black);
+  padding:.5rem 1.2rem;font-size:11px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  font-weight:500;border:none;cursor:pointer;
+  white-space:nowrap;transition:opacity .2s;
+}
+.nav-cta:hover{opacity:.85;}
 
-  /* RESULTS */
-  #results{background:var(--gray);}
-  .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
-  .result-card{background:var(--black);padding:2rem;border:1px solid rgba(255,255,255,0.04);}
-  .result-before-after{display:flex;gap:.5rem;margin-bottom:1.5rem;}
-  .result-photo{flex:1;aspect-ratio:2/3;background:linear-gradient(160deg,#1e1a10,#141414);display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
-  .result-photo.after{background:linear-gradient(160deg,#1e1e0a,#141414);}
-  .result-name{font-weight:500;margin-bottom:.3rem;}
-  .result-change{color:var(--accent);font-size:13px;font-weight:500;margin-bottom:.5rem;}
-  .result-quote{color:var(--muted);font-size:13px;line-height:1.6;font-style:italic;}
+/* mobile menu */
+.mobile-menu{
+  display:none;position:fixed;
+  top:60px;left:0;right:0;z-index:199;
+  background:rgba(10,10,10,0.98);
+  padding:1.5rem;
+  flex-direction:column;gap:1rem;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{
+  color:rgba(245,243,238,0.7);font-size:14px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.mobile-menu a:last-child{border-bottom:none;}
 
-  /* SERVICES */
-  #services{background:var(--black);}
-  .services-list{display:flex;flex-direction:column;gap:0;border:1px solid rgba(255,255,255,0.06);}
-  .service-row{display:flex;align-items:center;justify-content:space-between;padding:2rem 2.5rem;border-bottom:1px solid rgba(255,255,255,0.06);transition:background .2s;cursor:pointer;}
-  .service-row:last-child{border-bottom:none;}
-  .service-row:hover{background:var(--gray);}
-  .service-row:hover .service-arrow{color:var(--accent);}
-  .service-left{display:flex;align-items:center;gap:2rem;}
-  .service-index{font-family:var(--font-display);font-size:1.2rem;color:var(--muted);width:30px;}
-  .service-info strong{display:block;font-size:16px;margin-bottom:.2rem;}
-  .service-info span{color:var(--muted);font-size:13px;}
-  .service-right{display:flex;align-items:center;gap:2rem;}
-  .service-price{font-family:var(--font-display);font-size:1.4rem;color:var(--accent);}
-  .service-arrow{font-size:1.2rem;color:var(--muted);transition:color .2s;}
+/* ── CART DRAWER ── */
+.cart-overlay{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,0.6);
+}
+.cart-overlay.open{display:block;}
+.cart-drawer{
+  position:fixed;top:0;right:-100%;width:min(380px,100vw);
+  height:100vh;z-index:301;
+  background:var(--gray);
+  display:flex;flex-direction:column;
+  transition:right .35s cubic-bezier(.4,0,.2,1);
+}
+.cart-drawer.open{right:0;}
+.cart-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.cart-header h3{font-family:var(--font-display);font-size:1.4rem;letter-spacing:1px;}
+.cart-close{background:none;border:none;color:var(--white);font-size:1.4rem;cursor:pointer;}
+.cart-items{flex:1;overflow-y:auto;padding:1rem 1.5rem;}
+.cart-empty{
+  color:var(--muted);font-size:14px;
+  text-align:center;padding:3rem 0;
+}
+.cart-item{
+  display:flex;gap:1rem;align-items:flex-start;
+  padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.cart-item-emoji{
+  width:48px;height:48px;background:var(--black);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;flex-shrink:0;
+}
+.cart-item-info{flex:1;}
+.cart-item-name{font-size:14px;font-weight:500;margin-bottom:.2rem;}
+.cart-item-price{font-size:13px;color:var(--accent);}
+.cart-item-qty{
+  display:flex;align-items:center;gap:.5rem;margin-top:.5rem;
+}
+.qty-btn{
+  background:rgba(255,255,255,0.08);border:none;
+  color:var(--white);width:24px;height:24px;
+  cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.qty-num{font-size:13px;min-width:20px;text-align:center;}
+.cart-remove{
+  background:none;border:none;color:var(--muted);
+  cursor:pointer;font-size:18px;padding:0;
+  align-self:flex-start;
+}
+.cart-footer{padding:1.5rem;border-top:1px solid rgba(255,255,255,0.08);}
+.cart-total{
+  display:flex;justify-content:space-between;
+  margin-bottom:1.2rem;
+}
+.cart-total span:first-child{color:var(--muted);font-size:14px;}
+.cart-total span:last-child{font-family:var(--font-display);font-size:1.4rem;color:var(--accent);}
+.checkout-btn{
+  width:100%;background:var(--accent);color:var(--black);
+  padding:1rem;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:500;
+  border:none;cursor:pointer;transition:opacity .2s;
+}
+.checkout-btn:hover{opacity:.85;}
+.opay-note{
+  text-align:center;font-size:11px;color:var(--muted);
+  margin-top:.8rem;
+}
 
-  /* SHOP */
-  #shop{background:var(--gray);}
-  .shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
-  .shop-card{background:var(--black);cursor:pointer;transition:transform .2s;}
-  .shop-card:hover{transform:translateY(-4px);}
-  .shop-img{aspect-ratio:1;background:linear-gradient(160deg,#1a1a1a,#0a0a0a);display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:1rem;}
-  .shop-info{padding:0 1rem 1.2rem;}
-  .shop-name{font-size:14px;font-weight:500;margin-bottom:.3rem;}
-  .shop-price{color:var(--accent);font-family:var(--font-display);font-size:1.3rem;}
-  .shop-btn{width:100%;background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.1);padding:.6rem;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;margin-top:.8rem;transition:background .2s,color .2s;}
-  .shop-btn:hover{background:var(--accent);color:var(--black);border-color:var(--accent);}
+/* ── HERO ── */
+#home{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:7rem 1.5rem 4rem;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#0a0a0a 0%,#1a1209 60%,#0a0a0a 100%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(232,197,71,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(232,197,71,0.04) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+.hero-circle{
+  position:absolute;right:-150px;top:50%;
+  transform:translateY(-50%);
+  width:500px;height:500px;border-radius:50%;
+  border:1px solid rgba(232,197,71,0.08);pointer-events:none;
+}
+.hero-circle::before{
+  content:'';position:absolute;inset:50px;
+  border-radius:50%;border:1px solid rgba(232,197,71,0.05);
+}
+.hero-content{position:relative;z-index:1;max-width:680px;}
+.hero-tag{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:1.2rem;font-weight:500;
+}
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(3.5rem,12vw,8rem);
+  line-height:.95;letter-spacing:2px;margin-bottom:1.2rem;
+}
+.hero-title span{color:var(--accent);}
+.hero-sub{
+  color:rgba(245,243,238,0.55);
+  font-size:clamp(14px,2vw,16px);
+  max-width:380px;margin-bottom:2rem;line-height:1.7;
+}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;}
+.btn-primary{
+  background:var(--accent);color:var(--black);
+  padding:.85rem 2rem;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:500;
+  border:none;cursor:pointer;transition:opacity .2s;
+  white-space:nowrap;
+}
+.btn-primary:hover{opacity:.85;}
+.btn-ghost{
+  background:transparent;color:var(--white);
+  padding:.85rem 2rem;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:500;
+  border:1px solid rgba(255,255,255,0.2);
+  cursor:pointer;transition:border-color .2s;
+  white-space:nowrap;
+}
+.btn-ghost:hover{border-color:var(--accent);}
+.hero-stats{
+  display:flex;gap:2.5rem;flex-wrap:wrap;
+  margin-top:3rem;position:relative;z-index:1;
+}
+.stat-num{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,2.8rem);
+  color:var(--accent);line-height:1;
+}
+.stat-label{
+  font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);
+}
 
-  /* TESTIMONIALS */
-  #testimonials{background:var(--black);text-align:center;}
-  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;text-align:left;}
-  .testi-card{background:var(--gray);padding:2rem;border-top:2px solid var(--accent);}
-  .testi-stars{color:var(--accent);font-size:12px;letter-spacing:3px;margin-bottom:1rem;}
-  .testi-text{color:rgba(245,243,238,0.7);font-size:14px;line-height:1.8;margin-bottom:1.5rem;font-style:italic;}
-  .testi-author{display:flex;align-items:center;gap:.8rem;}
-  .testi-avatar{width:38px;height:38px;border-radius:50%;background:rgba(232,197,71,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;color:var(--accent);}
-  .testi-name{font-size:14px;font-weight:500;}
-  .testi-meta{font-size:12px;color:var(--muted);}
+/* ── SECTIONS ── */
+section{padding:5rem 1.5rem;}
+.section-tag{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.8rem;font-weight:500;
+}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(2.2rem,6vw,3.8rem);
+  line-height:1;letter-spacing:1px;margin-bottom:1.2rem;
+}
+.section-sub{
+  color:rgba(245,243,238,0.55);
+  max-width:480px;margin-bottom:2.5rem;
+  font-size:14px;line-height:1.75;
+}
 
-  /* CONTACT */
-  #contact{background:var(--accent);color:var(--black);text-align:center;padding:6rem 3rem;}
-  #contact .section-title{color:var(--black);}
-  #contact .section-tag{color:rgba(10,10,10,0.5);}
-  .contact-sub{color:rgba(10,10,10,0.6);max-width:400px;margin:0 auto 2.5rem;}
-  .contact-form{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:1rem;}
-  .contact-form input,.contact-form textarea{background:rgba(10,10,10,0.08);border:1px solid rgba(10,10,10,0.15);padding:.9rem 1.2rem;color:var(--black);font-family:var(--font-body);font-size:14px;width:100%;outline:none;}
-  .contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(10,10,10,0.4);}
-  .contact-form textarea{height:120px;resize:none;}
-  .contact-form button{background:var(--black);color:var(--accent);padding:1rem;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:opacity .2s;}
-  .contact-form button:hover{opacity:.85;}
-  .contact-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+/* ── ABOUT ── */
+#about{background:var(--gray);}
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;
+}
+.about-img{
+  aspect-ratio:3/4;
+  background:linear-gradient(160deg,#1e1a10,#0a0a0a);
+  position:relative;overflow:hidden;
+}
+.about-img-inner{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:6rem;
+  color:rgba(232,197,71,0.06);letter-spacing:5px;
+}
+.about-img-badge{
+  position:absolute;bottom:1.5rem;left:1.5rem;
+  background:var(--accent);color:var(--black);
+  padding:.7rem 1.2rem;
+}
+.about-img-badge strong{
+  display:block;font-family:var(--font-display);
+  font-size:1.8rem;line-height:1;
+}
+.about-img-badge span{font-size:11px;letter-spacing:2px;text-transform:uppercase;}
+.about-features{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem;}
+.feat{
+  display:flex;align-items:flex-start;gap:.9rem;
+  padding:1rem;border:1px solid rgba(255,255,255,0.06);
+}
+.feat-icon{
+  width:34px;height:34px;flex-shrink:0;
+  background:rgba(232,197,71,0.1);
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+}
+.feat-text strong{display:block;font-size:14px;margin-bottom:.15rem;}
+.feat-text span{color:var(--muted);font-size:13px;}
 
-  /* FOOTER */
-  footer{background:#050505;padding:3rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.04);}
-  .footer-logo{font-family:var(--font-display);font-size:1.4rem;letter-spacing:3px;}
-  .footer-logo span{color:var(--accent);}
-  .footer-links{display:flex;gap:2rem;}
-  .footer-links a{color:var(--muted);text-decoration:none;font-size:12px;letter-spacing:1px;text-transform:uppercase;transition:color .2s;}
-  .footer-links a:hover{color:var(--accent);}
-  .footer-copy{color:var(--muted);font-size:12px;}
+/* ── PROGRAMS ── */
+#programs{background:var(--black);}
+.programs-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1px;background:rgba(255,255,255,0.06);
+}
+.program-card{
+  background:var(--black);padding:2rem 1.5rem;
+  transition:background .2s;cursor:pointer;
+}
+.program-card:hover{background:var(--gray);}
+.program-num{
+  font-family:var(--font-display);font-size:3.5rem;
+  color:rgba(232,197,71,0.15);line-height:1;margin-bottom:.8rem;
+}
+.program-name{
+  font-family:var(--font-display);font-size:1.4rem;
+  letter-spacing:1px;margin-bottom:.6rem;
+}
+.program-desc{color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:1.2rem;}
+.program-tag{
+  display:inline-block;background:rgba(232,197,71,0.1);
+  color:var(--accent);padding:.25rem .7rem;
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+}
 
-  /* ANIMATIONS */
-  @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-  .hero-tag,.hero-title,.hero-sub,.hero-actions{animation:fadeUp .7s ease both;}
-  .hero-tag{animation-delay:.1s;}
-  .hero-title{animation-delay:.25s;}
-  .hero-sub{animation-delay:.4s;}
-  .hero-actions{animation-delay:.55s;}
+/* ── RESULTS ── */
+#results{background:var(--gray);}
+.results-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.2rem;
+}
+.result-card{
+  background:var(--black);padding:1.5rem;
+  border:1px solid rgba(255,255,255,0.04);
+}
+.result-before-after{display:flex;gap:.5rem;margin-bottom:1.2rem;}
+.result-photo{
+  flex:1;aspect-ratio:2/3;
+  background:linear-gradient(160deg,#1e1a10,#141414);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);
+}
+.result-photo.after{background:linear-gradient(160deg,#1e1e0a,#141414);}
+.result-name{font-weight:500;margin-bottom:.25rem;}
+.result-change{color:var(--accent);font-size:13px;font-weight:500;margin-bottom:.4rem;}
+.result-quote{color:var(--muted);font-size:13px;line-height:1.6;font-style:italic;}
+
+/* ── SERVICES ── */
+#services{background:var(--black);}
+.services-list{
+  display:flex;flex-direction:column;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.service-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  gap:1rem;
+  transition:background .2s;cursor:pointer;
+}
+.service-row:last-child{border-bottom:none;}
+.service-row:hover{background:var(--gray);}
+.service-row:hover .service-arrow{color:var(--accent);}
+.service-left{display:flex;align-items:flex-start;gap:1.2rem;flex:1;min-width:0;}
+.service-index{
+  font-family:var(--font-display);font-size:1.1rem;
+  color:var(--muted);width:28px;flex-shrink:0;padding-top:1px;
+}
+.service-info strong{display:block;font-size:15px;margin-bottom:.15rem;}
+.service-info span{color:var(--muted);font-size:13px;}
+.service-right{display:flex;align-items:center;gap:1.2rem;flex-shrink:0;}
+.service-price{font-family:var(--font-display);font-size:1.3rem;color:var(--accent);}
+.service-arrow{color:var(--muted);transition:color .2s;font-size:1.1rem;}
+
+/* ── SHOP ── */
+#shop{background:var(--gray);}
+.shop-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1rem;
+}
+.shop-card{
+  background:var(--black);cursor:pointer;
+  transition:transform .2s;
+}
+.shop-card:hover{transform:translateY(-4px);}
+.shop-img{
+  aspect-ratio:1;
+  background:linear-gradient(160deg,#1a1a1a,#0a0a0a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;
+}
+.shop-info{padding:.9rem 1rem 1.1rem;}
+.shop-name{font-size:14px;font-weight:500;margin-bottom:.25rem;}
+.shop-price{color:var(--accent);font-family:var(--font-display);font-size:1.2rem;}
+.shop-btn{
+  width:100%;background:transparent;color:var(--white);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:.55rem;font-size:11px;letter-spacing:1.5px;
+  text-transform:uppercase;cursor:pointer;
+  margin-top:.7rem;
+  transition:background .2s,color .2s,border-color .2s;
+  font-family:var(--font-body);
+}
+.shop-btn:hover{background:var(--accent);color:var(--black);border-color:var(--accent);}
+
+/* ── TESTIMONIALS ── */
+#testimonials{background:var(--black);}
+.testimonials-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.2rem;
+}
+.testi-card{
+  background:var(--gray);padding:1.8rem;
+  border-top:2px solid var(--accent);
+}
+.testi-stars{color:var(--accent);font-size:12px;letter-spacing:3px;margin-bottom:.8rem;}
+.testi-text{
+  color:rgba(245,243,238,0.7);font-size:14px;
+  line-height:1.8;margin-bottom:1.2rem;font-style:italic;
+}
+.testi-author{display:flex;align-items:center;gap:.8rem;}
+.testi-avatar{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:rgba(232,197,71,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:1rem;color:var(--accent);
+}
+.testi-name{font-size:14px;font-weight:500;}
+.testi-meta{font-size:12px;color:var(--muted);}
+
+/* ── CONTACT ── */
+#contact{
+  background:var(--accent);color:var(--black);
+  padding:5rem 1.5rem;
+}
+#contact .section-title{color:var(--black);}
+#contact .section-tag{color:rgba(10,10,10,0.5);}
+.contact-sub{
+  color:rgba(10,10,10,0.6);max-width:400px;
+  margin:0 0 2rem;font-size:14px;
+}
+.contact-form{
+  max-width:540px;
+  display:flex;flex-direction:column;gap:.9rem;
+}
+.contact-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+.contact-form input,
+.contact-form textarea{
+  background:rgba(10,10,10,0.08);
+  border:1px solid rgba(10,10,10,0.15);
+  padding:.85rem 1.1rem;
+  color:var(--black);
+  font-family:var(--font-body);font-size:14px;
+  width:100%;outline:none;
+}
+.contact-form input::placeholder,
+.contact-form textarea::placeholder{color:rgba(10,10,10,0.4);}
+.contact-form textarea{height:110px;resize:none;}
+.contact-form button{
+  background:var(--black);color:var(--accent);
+  padding:1rem;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:500;
+  border:none;cursor:pointer;transition:opacity .2s;
+  font-family:var(--font-body);
+}
+.contact-form button:hover{opacity:.85;}
+
+/* ── FOOTER ── */
+footer{
+  background:#050505;padding:2.5rem 1.5rem;
+  display:flex;flex-wrap:wrap;
+  justify-content:space-between;align-items:center;
+  gap:1.5rem;
+  border-top:1px solid rgba(255,255,255,0.04);
+}
+.footer-logo{font-family:var(--font-display);font-size:1.3rem;letter-spacing:3px;}
+.footer-logo span{color:var(--accent);}
+.footer-links{display:flex;flex-wrap:wrap;gap:1.5rem;}
+.footer-links a{
+  color:var(--muted);font-size:12px;
+  letter-spacing:1px;text-transform:uppercase;
+  transition:color .2s;
+}
+.footer-links a:hover{color:var(--accent);}
+.footer-copy{color:var(--muted);font-size:12px;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.hero-tag,.hero-title,.hero-sub,.hero-actions,.hero-stats{
+  animation:fadeUp .7s ease both;
+}
+.hero-tag{animation-delay:.1s;}
+.hero-title{animation-delay:.25s;}
+.hero-sub{animation-delay:.4s;}
+.hero-actions{animation-delay:.55s;}
+.hero-stats{animation-delay:.7s;}
+
+/* ── RESPONSIVE BREAKPOINTS ── */
+
+/* Tablet */
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr;gap:2.5rem;}
+  .about-img{aspect-ratio:16/9;max-height:300px;}
+  .hero-circle{display:none;}
+}
+
+/* Mobile */
+@media(max-width:640px){
+  nav{padding:.9rem 1rem;}
+  .nav-right{display:none;}
+  .hamburger{display:flex;}
+
+  #home{padding:6rem 1rem 3.5rem;}
+  .hero-stats{gap:1.5rem;}
+
+  section{padding:3.5rem 1rem;}
+
+  .contact-row{grid-template-columns:1fr;}
+
+  .programs-grid{grid-template-columns:1fr;}
+  .results-grid{grid-template-columns:1fr;}
+  .shop-grid{grid-template-columns:repeat(2,1fr);}
+  .testimonials-grid{grid-template-columns:1fr;}
+
+  .service-row{flex-wrap:wrap;gap:.5rem;}
+  .service-right{width:100%;justify-content:flex-end;}
+
+  footer{flex-direction:column;align-items:flex-start;gap:1rem;}
+  .footer-links{gap:1rem;}
+
+  .cart-drawer{width:100vw;}
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ── CART OVERLAY ── -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+<!-- ── CART DRAWER ── -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p class="cart-empty">Your cart is empty.</p>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">$0</span>
+    </div>
+    <button class="checkout-btn" onclick="handleCheckout()">Checkout with opay →</button>
+    <p class="opay-note">🔒 Secure checkout powered by opay</p>
+  </div>
+</div>
+
+<!-- ── NAV ── -->
 <nav>
   <div class="logo">XTREME<span>.</span>FIT</div>
-  <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#programs">Programs</a></li>
-    <li><a href="#services">Coaching</a></li>
-    <li><a href="#shop">Shop</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Session</button>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#services">Coaching</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="openCart()" aria-label="Open cart">
+        🛒<span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Session</button>
+    </div>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- HERO -->
+<!-- ── MOBILE MENU ── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#programs" onclick="closeMenu()">Programs</a>
+  <a href="#services" onclick="closeMenu()">Coaching</a>
+  <a href="#shop" onclick="closeMenu()">Shop</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="#contact" onclick="closeMenu()" style="color:var(--accent);font-weight:500;">Book a Session →</a>
+</div>
+
+<!-- ── HERO ── -->
 <section id="home">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-circle"></div>
-  <div class="hero-tag">Personal Training · Online & In-Person</div>
-  <h1 class="hero-title">Train Hard.<br><span>Live</span> Stronger.</h1>
-  <p class="hero-sub">No fluff. No shortcuts. Just real results built on proven methods, consistency, and expert coaching.</p>
-  <div class="hero-actions">
-    <button class="btn-primary" onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth'})">View Programs</button>
-    <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Session</button>
+  <div class="hero-content">
+    <div class="hero-tag">Personal Training · Online &amp; In-Person</div>
+    <h1 class="hero-title">Train Hard.<br><span>Live</span> Stronger.</h1>
+    <p class="hero-sub">No fluff. No shortcuts. Just real results built on proven methods, consistency, and expert coaching.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth'})">View Programs</button>
+      <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Session</button>
+    </div>
   </div>
   <div class="hero-stats">
-    <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Clients Trained</div></div>
-    <div class="stat"><div class="stat-num">8yr</div><div class="stat-label">Experience</div></div>
-    <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Success Rate</div></div>
+    <div class="stat">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Clients Trained</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">8yr</div>
+      <div class="stat-label">Experience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Success Rate</div>
+    </div>
   </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ── ABOUT ── -->
 <section id="about">
-  <div class="about-img">
-    <div class="about-img-inner">XTREME</div>
-    <div class="about-img-badge">
-      <strong>8+</strong>
-      <span>Years coaching</span>
+  <div class="about-grid">
+    <div class="about-img">
+      <div class="about-img-inner">XTREME</div>
+      <div class="about-img-badge">
+        <strong>8+</strong>
+        <span>Years coaching</span>
+      </div>
     </div>
-  </div>
-  <div>
-    <div class="section-tag">About the Trainer</div>
-    <h2 class="section-title">Built Different. Coaching Different.</h2>
-    <p class="section-sub">I'm Jordan XTREME — certified strength coach and nutrition specialist. I don't believe in quick fixes. I believe in building bodies and mindsets that last.</p>
-    <div class="about-features">
-      <div class="feat">
-        <div class="feat-icon">🏋️</div>
-        <div class="feat-text"><strong>Strength & Conditioning</strong><span>Progressive overload programs tailored to your baseline and goals.</span></div>
-      </div>
-      <div class="feat">
-        <div class="feat-icon">🥗</div>
-        <div class="feat-text"><strong>Nutrition Coaching</strong><span>No gimmick diets. Sustainable eating plans that fuel real performance.</span></div>
-      </div>
-      <div class="feat">
-        <div class="feat-icon">📊</div>
-        <div class="feat-text"><strong>Progress Tracking</strong><span>Weekly check-ins, data-driven adjustments, and accountability built in.</span></div>
+    <div>
+      <div class="section-tag">About the Trainer</div>
+      <h2 class="section-title">Built Different.<br>Coaching Different.</h2>
+      <p class="section-sub">I'm Jordan XTREME — certified strength coach and nutrition specialist. I don't believe in quick fixes. I believe in building bodies and mindsets that last.</p>
+      <div class="about-features">
+        <div class="feat">
+          <div class="feat-icon">🏋️</div>
+          <div class="feat-text">
+            <strong>Strength &amp; Conditioning</strong>
+            <span>Progressive overload programs tailored to your baseline and goals.</span>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">🥗</div>
+          <div class="feat-text">
+            <strong>Nutrition Coaching</strong>
+            <span>No gimmick diets. Sustainable eating plans that fuel real performance.</span>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">📊</div>
+          <div class="feat-text">
+            <strong>Progress Tracking</strong>
+            <span>Weekly check-ins, data-driven adjustments, and accountability built in.</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROGRAMS -->
+<!-- ── PROGRAMS ── -->
 <section id="programs">
   <div class="section-tag">What's Inside</div>
   <h2 class="section-title">Programs Built to Perform</h2>
@@ -250,7 +698,7 @@
   </div>
 </section>
 
-<!-- RESULTS -->
+<!-- ── RESULTS ── -->
 <section id="results">
   <div class="section-tag">Transformations</div>
   <h2 class="section-title">Real People. Real Results.</h2>
@@ -286,7 +734,7 @@
   </div>
 </section>
 
-<!-- SERVICES / COACHING -->
+<!-- ── SERVICES ── -->
 <section id="services">
   <div class="section-tag">Coaching</div>
   <h2 class="section-title">Pick Your Level</h2>
@@ -295,7 +743,10 @@
     <div class="service-row">
       <div class="service-left">
         <span class="service-index">01</span>
-        <div class="service-info"><strong>Digital Program</strong><span>Self-paced · Full workout plan + video library</span></div>
+        <div class="service-info">
+          <strong>Digital Program</strong>
+          <span>Self-paced · Full workout plan + video library</span>
+        </div>
       </div>
       <div class="service-right">
         <span class="service-price">$49</span>
@@ -305,7 +756,10 @@
     <div class="service-row">
       <div class="service-left">
         <span class="service-index">02</span>
-        <div class="service-info"><strong>Online Coaching</strong><span>Monthly · Weekly check-ins + custom plan updates</span></div>
+        <div class="service-info">
+          <strong>Online Coaching</strong>
+          <span>Monthly · Weekly check-ins + custom plan updates</span>
+        </div>
       </div>
       <div class="service-right">
         <span class="service-price">$199/mo</span>
@@ -315,7 +769,10 @@
     <div class="service-row">
       <div class="service-left">
         <span class="service-index">03</span>
-        <div class="service-info"><strong>VIP 1:1 Coaching</strong><span>Monthly · Daily access + in-person or live video sessions</span></div>
+        <div class="service-info">
+          <strong>VIP 1:1 Coaching</strong>
+          <span>Monthly · Daily access + live sessions</span>
+        </div>
       </div>
       <div class="service-right">
         <span class="service-price">$449/mo</span>
@@ -325,7 +782,10 @@
     <div class="service-row">
       <div class="service-left">
         <span class="service-index">04</span>
-        <div class="service-info"><strong>Nutrition Plan Only</strong><span>One-time · Macro targets, meal structure, supplement guide</span></div>
+        <div class="service-info">
+          <strong>Nutrition Plan Only</strong>
+          <span>One-time · Macros, meal structure, supplement guide</span>
+        </div>
       </div>
       <div class="service-right">
         <span class="service-price">$89</span>
@@ -335,9 +795,9 @@
   </div>
 </section>
 
-<!-- SHOP -->
+<!-- ── SHOP ── -->
 <section id="shop">
-  <div class="section-tag">Merch & Supplements</div>
+  <div class="section-tag">Merch &amp; Supplements</div>
   <h2 class="section-title">The XTREME Store</h2>
   <p class="section-sub">Gear you'll actually use. Supplements that actually work.</p>
   <div class="shop-grid">
@@ -346,7 +806,7 @@
       <div class="shop-info">
         <div class="shop-name">XTREME Training Tee</div>
         <div class="shop-price">$35</div>
-        <button class="shop-btn">Add to Cart</button>
+        <button class="shop-btn" onclick="addToCart('XTREME Training Tee',35,'👕')">Add to Cart</button>
       </div>
     </div>
     <div class="shop-card">
@@ -354,7 +814,7 @@
       <div class="shop-info">
         <div class="shop-name">Snapback Cap</div>
         <div class="shop-price">$28</div>
-        <button class="shop-btn">Add to Cart</button>
+        <button class="shop-btn" onclick="addToCart('Snapback Cap',28,'🧢')">Add to Cart</button>
       </div>
     </div>
     <div class="shop-card">
@@ -362,32 +822,35 @@
       <div class="shop-info">
         <div class="shop-name">Pre-Workout Formula</div>
         <div class="shop-price">$52</div>
-        <button class="shop-btn">Add to Cart</button>
+        <button class="shop-btn" onclick="addToCart('Pre-Workout Formula',52,'💊')">Add to Cart</button>
       </div>
     </div>
     <div class="shop-card">
       <div class="shop-img">🥤</div>
       <div class="shop-info">
-        <div class="shop-name">Whey Protein (2lbs)</div>
+        <div class="shop-name">Whey Protein 2lbs</div>
         <div class="shop-price">$65</div>
-        <button class="shop-btn">Add to Cart</button>
+        <button class="shop-btn" onclick="addToCart('Whey Protein 2lbs',65,'🥤')">Add to Cart</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
+<!-- ── TESTIMONIALS ── -->
 <section id="testimonials">
   <div class="section-tag">Social Proof</div>
   <h2 class="section-title">What Clients Say</h2>
-  <p class="section-sub" style="margin:0 auto 3rem;">Don't take our word for it.</p>
+  <p class="section-sub">Don't take our word for it.</p>
   <div class="testimonials-grid">
     <div class="testi-card">
       <div class="testi-stars">★★★★★</div>
       <p class="testi-text">"I've tried 4 other trainers. Jordan is the only one who actually adjusted the plan when I hit a plateau. That attention to detail is everything."</p>
       <div class="testi-author">
         <div class="testi-avatar">AL</div>
-        <div><div class="testi-name">Alicia L.</div><div class="testi-meta">Online Coaching · 6 months</div></div>
+        <div>
+          <div class="testi-name">Alicia L.</div>
+          <div class="testi-meta">Online Coaching · 6 months</div>
+        </div>
       </div>
     </div>
     <div class="testi-card">
@@ -395,7 +858,10 @@
       <p class="testi-text">"The Foundation 12 program changed my entire relationship with the gym. Clear, progressive, and it works. I'm now on Power Block."</p>
       <div class="testi-author">
         <div class="testi-avatar">BK</div>
-        <div><div class="testi-name">Ben K.</div><div class="testi-meta">Foundation 12 → Power Block</div></div>
+        <div>
+          <div class="testi-name">Ben K.</div>
+          <div class="testi-meta">Foundation 12 → Power Block</div>
+        </div>
       </div>
     </div>
     <div class="testi-card">
@@ -403,29 +869,32 @@
       <p class="testi-text">"The VIP coaching is worth every dollar. Having daily access to message Jordan makes you feel like you have a coach in your corner 24/7."</p>
       <div class="testi-author">
         <div class="testi-avatar">SM</div>
-        <div><div class="testi-name">Sofia M.</div><div class="testi-meta">VIP 1:1 Coaching · 3 months</div></div>
+        <div>
+          <div class="testi-name">Sofia M.</div>
+          <div class="testi-meta">VIP 1:1 Coaching · 3 months</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ── CONTACT ── -->
 <section id="contact">
   <div class="section-tag">Get Started</div>
-  <h2 class="section-title" style="color:var(--black);">Ready to Start?</h2>
+  <h2 class="section-title">Ready to Start?</h2>
   <p class="contact-sub">Book a free 20-minute intro call and let's build your plan.</p>
   <div class="contact-form">
     <div class="contact-row">
-      <input type="text" placeholder="Your name"/>
-      <input type="email" placeholder="Email address"/>
+      <input type="text" placeholder="Your name" id="cName"/>
+      <input type="email" placeholder="Email address" id="cEmail"/>
     </div>
-    <input type="text" placeholder="What's your goal? (e.g. lose fat, build muscle)"/>
-    <textarea placeholder="Tell me where you're at and what you need…"></textarea>
-    <button type="button">Book a Free Call →</button>
+    <input type="text" placeholder="Your goal (e.g. lose fat, build muscle)" id="cGoal"/>
+    <textarea placeholder="Tell me where you're at and what you need…" id="cMessage"></textarea>
+    <button type="button" onclick="submitForm()">Book a Free Call →</button>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <footer>
   <div class="footer-logo">XTREME<span>.</span>FIT</div>
   <div class="footer-links">
@@ -437,6 +906,177 @@
   </div>
   <div class="footer-copy">© 2026 XTREME Fit. All rights reserved.</div>
 </footer>
+
+<script>
+// ── opay CONFIG ──────────────────────────────────────────────
+// Replace with your real opay publishable key from dashboard.opay.com
+const opay_KEY = 'pk_test_YOUR_opay_KEY_HERE';
+
+// ── CART STATE ─────────────────────────────────────────────────
+let cart = [];
+
+function addToCart(name, price, emoji) {
+  const existing = cart.find(i => i.name === name);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ name, price, emoji, qty: 1 });
+  }
+  updateCartUI();
+  openCart();
+}
+
+function removeFromCart(name) {
+  cart = cart.filter(i => i.name !== name);
+  updateCartUI();
+}
+
+function changeQty(name, delta) {
+  const item = cart.find(i => i.name === name);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(name);
+  else updateCartUI();
+}
+
+function updateCartUI() {
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+
+  const el = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    el.innerHTML = '<p class="cart-empty">Your cart is empty.</p>';
+    return;
+  }
+  el.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-emoji">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty('${item.name}',-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.name}',1)">+</button>
+        </div>
+      </div>
+      <button class="cart-remove" onclick="removeFromCart('${item.name}')" aria-label="Remove">✕</button>
+    </div>
+  `).join('');
+}
+
+function openCart() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── opay CHECKOUT ────────────────────────────────────────────
+async function handleCheckout() {
+  if (cart.length === 0) {
+    alert('Your cart is empty!');
+    return;
+  }
+  if (opay_KEY === 'pk_test_YOUR_opay_KEY_HERE') {
+    alert(
+      'opay not connected yet.\n\n' +
+      'To activate checkout:\n' +
+      '1. Go to dashboard.opay.com\n' +
+      '2. Copy your Publishable Key\n' +
+      '3. Replace opay_KEY in the script at the bottom of index.html'
+    );
+    return;
+  }
+
+  // Load opay.js dynamically
+  if (!window.opay) {
+    await new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = 'https://js.opay.com/v3/';
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+
+  // NOTE: Real opay Checkout requires a server to create a Session.
+  // The block below shows the correct pattern — wire it to your backend.
+  // For a serverless option, use opay Payment Links from the dashboard.
+  alert(
+    'Cart ready! (' + cart.reduce((s,i)=>s+i.qty,0) + ' items)\n\n' +
+    'To complete opay integration:\n' +
+    '• Create a /create-checkout-session endpoint on your server\n' +
+    '• Or use opay Payment Links (no server needed)\n\n' +
+    'See: opay.com/docs/checkout/quickstart'
+  );
+}
+
+// ── MOBILE MENU ────────────────────────────────────────────────
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn  = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function closeMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// ── CONTACT FORM ───────────────────────────────────────────────
+function submitForm() {
+  const name    = document.getElementById('cName').value.trim();
+  const email   = document.getElementById('cEmail').value.trim();
+  const goal    = document.getElementById('cGoal').value.trim();
+  const message = document.getElementById('cMessage').value.trim();
+
+  if (!name || !email) {
+    alert('Please enter your name and email.');
+    return;
+  }
+
+  // To connect to Formspree:
+  // 1. Go to formspree.io and create a free form
+  // 2. Replace YOUR_FORM_ID below with your form ID
+  const FORMSPREE_ID = 'YOUR_FORM_ID';
+
+  if (FORMSPREE_ID === 'YOUR_FORM_ID') {
+    alert(
+      'Form submitted (demo mode)!\n\n' +
+      'To receive real emails:\n' +
+      '1. Go to formspree.io\n' +
+      '2. Create a free form\n' +
+      '3. Replace YOUR_FORM_ID in the script'
+    );
+    return;
+  }
+
+  fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ name, email, goal, message })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      alert('Message sent! I\'ll be in touch within 24 hours.');
+      ['cName','cEmail','cGoal','cMessage'].forEach(id => document.getElementById(id).value = '');
+    } else {
+      alert('Something went wrong. Please try again.');
+    }
+  })
+  .catch(() => alert('Network error. Please try again.'));
+}
+</script>
 
 </body>
 </html>
