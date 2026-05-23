@@ -1,0 +1,442 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --black:#0a0a0a;
+    --white:#f5f3ee;
+    --accent:#e84747;
+    --gray:#1a1a1a;
+    --muted:#888;
+    --font-display:'Bebas Neue',sans-serif;
+    --font-body:'DM Sans',sans-serif;
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.6;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);}
+  .logo{font-family:var(--font-display);font-size:1.6rem;letter-spacing:3px;color:var(--white);}
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex;gap:2rem;list-style:none;}
+  .nav-links a{color:rgba(245,243,238,0.6);text-decoration:none;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s;}
+  .nav-links a:hover{color:var(--accent);}
+  .nav-cta{background:var(--accent);color:var(--black);padding:.55rem 1.4rem;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:opacity .2s;}
+  .nav-cta:hover{opacity:.85;}
+
+  /* HERO */
+  #home{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#1a1209 60%,#0a0a0a 100%);}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(232,197,71,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(232,197,71,0.04) 1px,transparent 1px);background-size:60px 60px;}
+  .hero-circle{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:600px;height:600px;border-radius:50%;border:1px solid rgba(232,197,71,0.1);pointer-events:none;}
+  .hero-circle::before{content:'';position:absolute;inset:40px;border-radius:50%;border:1px solid rgba(232,197,71,0.06);}
+  .hero-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;font-weight:500;}
+  .hero-title{font-family:var(--font-display);font-size:clamp(4rem,9vw,8rem);line-height:.95;letter-spacing:2px;margin-bottom:1.5rem;max-width:700px;}
+  .hero-title span{color:var(--accent);}
+  .hero-sub{color:rgba(245,243,238,0.55);font-size:15px;max-width:380px;margin-bottom:2.5rem;line-height:1.7;}
+  .hero-actions{display:flex;gap:1rem;align-items:center;}
+  .btn-primary{background:var(--accent);color:var(--black);padding:.9rem 2.2rem;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:opacity .2s;}
+  .btn-primary:hover{opacity:.85;}
+  .btn-ghost{background:transparent;color:var(--white);padding:.9rem 2.2rem;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;border:1px solid rgba(255,255,255,0.2);cursor:pointer;transition:border-color .2s;}
+  .btn-ghost:hover{border-color:var(--accent);}
+  .hero-stats{position:absolute;right:3rem;bottom:5rem;display:flex;flex-direction:column;gap:2rem;}
+  .stat{text-align:right;}
+  .stat-num{font-family:var(--font-display);font-size:2.4rem;color:var(--accent);line-height:1;}
+  .stat-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+  /* SECTIONS */
+  section{padding:6rem 3rem;}
+  .section-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500;}
+  .section-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);line-height:1;letter-spacing:1px;margin-bottom:1.5rem;}
+  .section-sub{color:rgba(245,243,238,0.55);max-width:480px;margin-bottom:3rem;}
+
+  /* ABOUT */
+  #about{background:var(--gray);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+  .about-img{aspect-ratio:3/4;background:linear-gradient(160deg,#1e1a10,#0a0a0a);position:relative;overflow:hidden;}
+  .about-img-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:8rem;color:rgba(232,197,71,0.08);letter-spacing:5px;}
+  .about-img-badge{position:absolute;bottom:2rem;left:2rem;background:var(--accent);color:var(--black);padding:.8rem 1.4rem;}
+  .about-img-badge strong{display:block;font-family:var(--font-display);font-size:2rem;line-height:1;}
+  .about-img-badge span{font-size:11px;letter-spacing:2px;text-transform:uppercase;}
+  .about-features{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem;}
+  .feat{display:flex;align-items:flex-start;gap:1rem;padding:1.2rem;border:1px solid rgba(255,255,255,0.06);}
+  .feat-icon{width:36px;height:36px;background:rgba(232,197,71,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+  .feat-text strong{display:block;font-size:14px;margin-bottom:.2rem;}
+  .feat-text span{color:var(--muted);font-size:13px;}
+
+  /* PROGRAMS */
+  #programs{background:var(--black);}
+  .programs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.06);}
+  .program-card{background:var(--black);padding:2.5rem 2rem;transition:background .2s;cursor:pointer;}
+  .program-card:hover{background:var(--gray);}
+  .program-num{font-family:var(--font-display);font-size:4rem;color:rgba(232,197,71,0.15);line-height:1;margin-bottom:1rem;}
+  .program-name{font-family:var(--font-display);font-size:1.5rem;letter-spacing:1px;margin-bottom:.8rem;}
+  .program-desc{color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:1.5rem;}
+  .program-tag{display:inline-block;background:rgba(232,197,71,0.1);color:var(--accent);padding:.3rem .8rem;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;}
+
+  /* RESULTS */
+  #results{background:var(--gray);}
+  .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+  .result-card{background:var(--black);padding:2rem;border:1px solid rgba(255,255,255,0.04);}
+  .result-before-after{display:flex;gap:.5rem;margin-bottom:1.5rem;}
+  .result-photo{flex:1;aspect-ratio:2/3;background:linear-gradient(160deg,#1e1a10,#141414);display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+  .result-photo.after{background:linear-gradient(160deg,#1e1e0a,#141414);}
+  .result-name{font-weight:500;margin-bottom:.3rem;}
+  .result-change{color:var(--accent);font-size:13px;font-weight:500;margin-bottom:.5rem;}
+  .result-quote{color:var(--muted);font-size:13px;line-height:1.6;font-style:italic;}
+
+  /* SERVICES */
+  #services{background:var(--black);}
+  .services-list{display:flex;flex-direction:column;gap:0;border:1px solid rgba(255,255,255,0.06);}
+  .service-row{display:flex;align-items:center;justify-content:space-between;padding:2rem 2.5rem;border-bottom:1px solid rgba(255,255,255,0.06);transition:background .2s;cursor:pointer;}
+  .service-row:last-child{border-bottom:none;}
+  .service-row:hover{background:var(--gray);}
+  .service-row:hover .service-arrow{color:var(--accent);}
+  .service-left{display:flex;align-items:center;gap:2rem;}
+  .service-index{font-family:var(--font-display);font-size:1.2rem;color:var(--muted);width:30px;}
+  .service-info strong{display:block;font-size:16px;margin-bottom:.2rem;}
+  .service-info span{color:var(--muted);font-size:13px;}
+  .service-right{display:flex;align-items:center;gap:2rem;}
+  .service-price{font-family:var(--font-display);font-size:1.4rem;color:var(--accent);}
+  .service-arrow{font-size:1.2rem;color:var(--muted);transition:color .2s;}
+
+  /* SHOP */
+  #shop{background:var(--gray);}
+  .shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+  .shop-card{background:var(--black);cursor:pointer;transition:transform .2s;}
+  .shop-card:hover{transform:translateY(-4px);}
+  .shop-img{aspect-ratio:1;background:linear-gradient(160deg,#1a1a1a,#0a0a0a);display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:1rem;}
+  .shop-info{padding:0 1rem 1.2rem;}
+  .shop-name{font-size:14px;font-weight:500;margin-bottom:.3rem;}
+  .shop-price{color:var(--accent);font-family:var(--font-display);font-size:1.3rem;}
+  .shop-btn{width:100%;background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.1);padding:.6rem;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;margin-top:.8rem;transition:background .2s,color .2s;}
+  .shop-btn:hover{background:var(--accent);color:var(--black);border-color:var(--accent);}
+
+  /* TESTIMONIALS */
+  #testimonials{background:var(--black);text-align:center;}
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;text-align:left;}
+  .testi-card{background:var(--gray);padding:2rem;border-top:2px solid var(--accent);}
+  .testi-stars{color:var(--accent);font-size:12px;letter-spacing:3px;margin-bottom:1rem;}
+  .testi-text{color:rgba(245,243,238,0.7);font-size:14px;line-height:1.8;margin-bottom:1.5rem;font-style:italic;}
+  .testi-author{display:flex;align-items:center;gap:.8rem;}
+  .testi-avatar{width:38px;height:38px;border-radius:50%;background:rgba(232,197,71,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;color:var(--accent);}
+  .testi-name{font-size:14px;font-weight:500;}
+  .testi-meta{font-size:12px;color:var(--muted);}
+
+  /* CONTACT */
+  #contact{background:var(--accent);color:var(--black);text-align:center;padding:6rem 3rem;}
+  #contact .section-title{color:var(--black);}
+  #contact .section-tag{color:rgba(10,10,10,0.5);}
+  .contact-sub{color:rgba(10,10,10,0.6);max-width:400px;margin:0 auto 2.5rem;}
+  .contact-form{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:1rem;}
+  .contact-form input,.contact-form textarea{background:rgba(10,10,10,0.08);border:1px solid rgba(10,10,10,0.15);padding:.9rem 1.2rem;color:var(--black);font-family:var(--font-body);font-size:14px;width:100%;outline:none;}
+  .contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(10,10,10,0.4);}
+  .contact-form textarea{height:120px;resize:none;}
+  .contact-form button{background:var(--black);color:var(--accent);padding:1rem;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:opacity .2s;}
+  .contact-form button:hover{opacity:.85;}
+  .contact-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+
+  /* FOOTER */
+  footer{background:#050505;padding:3rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.04);}
+  .footer-logo{font-family:var(--font-display);font-size:1.4rem;letter-spacing:3px;}
+  .footer-logo span{color:var(--accent);}
+  .footer-links{display:flex;gap:2rem;}
+  .footer-links a{color:var(--muted);text-decoration:none;font-size:12px;letter-spacing:1px;text-transform:uppercase;transition:color .2s;}
+  .footer-links a:hover{color:var(--accent);}
+  .footer-copy{color:var(--muted);font-size:12px;}
+
+  /* ANIMATIONS */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+  .hero-tag,.hero-title,.hero-sub,.hero-actions{animation:fadeUp .7s ease both;}
+  .hero-tag{animation-delay:.1s;}
+  .hero-title{animation-delay:.25s;}
+  .hero-sub{animation-delay:.4s;}
+  .hero-actions{animation-delay:.55s;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">XTREME<span>.</span>FIT</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#services">Coaching</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Session</button>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-circle"></div>
+  <div class="hero-tag">Personal Training · Online & In-Person</div>
+  <h1 class="hero-title">Train Hard.<br><span>Live</span> Stronger.</h1>
+  <p class="hero-sub">No fluff. No shortcuts. Just real results built on proven methods, consistency, and expert coaching.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth'})">View Programs</button>
+    <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Session</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Clients Trained</div></div>
+    <div class="stat"><div class="stat-num">8yr</div><div class="stat-label">Experience</div></div>
+    <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Success Rate</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img">
+    <div class="about-img-inner">XTREME</div>
+    <div class="about-img-badge">
+      <strong>8+</strong>
+      <span>Years coaching</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-tag">About the Trainer</div>
+    <h2 class="section-title">Built Different. Coaching Different.</h2>
+    <p class="section-sub">I'm Jordan XTREME — certified strength coach and nutrition specialist. I don't believe in quick fixes. I believe in building bodies and mindsets that last.</p>
+    <div class="about-features">
+      <div class="feat">
+        <div class="feat-icon">🏋️</div>
+        <div class="feat-text"><strong>Strength & Conditioning</strong><span>Progressive overload programs tailored to your baseline and goals.</span></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🥗</div>
+        <div class="feat-text"><strong>Nutrition Coaching</strong><span>No gimmick diets. Sustainable eating plans that fuel real performance.</span></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📊</div>
+        <div class="feat-text"><strong>Progress Tracking</strong><span>Weekly check-ins, data-driven adjustments, and accountability built in.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section id="programs">
+  <div class="section-tag">What's Inside</div>
+  <h2 class="section-title">Programs Built to Perform</h2>
+  <p class="section-sub">Pick the path that fits your goal. Every program includes full workout plans, video guides, and direct coach access.</p>
+  <div class="programs-grid">
+    <div class="program-card">
+      <div class="program-num">01</div>
+      <div class="program-name">Foundation 12</div>
+      <p class="program-desc">12-week beginner program. Build strength from the ground up with structured progressions and form coaching.</p>
+      <span class="program-tag">Beginner · 12 wks</span>
+    </div>
+    <div class="program-card">
+      <div class="program-num">02</div>
+      <div class="program-name">Cut Protocol</div>
+      <p class="program-desc">Fat loss without muscle sacrifice. High-intensity training paired with precision nutrition for a lean physique.</p>
+      <span class="program-tag">Intermediate · 8 wks</span>
+    </div>
+    <div class="program-card">
+      <div class="program-num">03</div>
+      <div class="program-name">Power Block</div>
+      <p class="program-desc">Advanced hypertrophy and strength program for those ready to push past their limits and build serious mass.</p>
+      <span class="program-tag">Advanced · 16 wks</span>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="section-tag">Transformations</div>
+  <h2 class="section-title">Real People. Real Results.</h2>
+  <p class="section-sub">These aren't stock photos. These are clients who put in the work and trusted the process.</p>
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="result-before-after">
+        <div class="result-photo">Before</div>
+        <div class="result-photo after">After</div>
+      </div>
+      <div class="result-name">Marcus T.</div>
+      <div class="result-change">−22 lbs in 12 weeks</div>
+      <div class="result-quote">"Best investment I've ever made. Jordan holds you accountable like no one else."</div>
+    </div>
+    <div class="result-card">
+      <div class="result-before-after">
+        <div class="result-photo">Before</div>
+        <div class="result-photo after">After</div>
+      </div>
+      <div class="result-name">Priya S.</div>
+      <div class="result-change">+14 lbs muscle in 16 weeks</div>
+      <div class="result-quote">"I finally understand my body. The nutrition coaching alone was worth everything."</div>
+    </div>
+    <div class="result-card">
+      <div class="result-before-after">
+        <div class="result-photo">Before</div>
+        <div class="result-photo after">After</div>
+      </div>
+      <div class="result-name">Devon K.</div>
+      <div class="result-change">Deadlift 135→285 lbs</div>
+      <div class="result-quote">"Cut Protocol is no joke. 8 weeks in, I look and feel completely different."</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES / COACHING -->
+<section id="services">
+  <div class="section-tag">Coaching</div>
+  <h2 class="section-title">Pick Your Level</h2>
+  <p class="section-sub">From self-guided programs to full 1:1 coaching — there's an option for every commitment level.</p>
+  <div class="services-list">
+    <div class="service-row">
+      <div class="service-left">
+        <span class="service-index">01</span>
+        <div class="service-info"><strong>Digital Program</strong><span>Self-paced · Full workout plan + video library</span></div>
+      </div>
+      <div class="service-right">
+        <span class="service-price">$49</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+    <div class="service-row">
+      <div class="service-left">
+        <span class="service-index">02</span>
+        <div class="service-info"><strong>Online Coaching</strong><span>Monthly · Weekly check-ins + custom plan updates</span></div>
+      </div>
+      <div class="service-right">
+        <span class="service-price">$199/mo</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+    <div class="service-row">
+      <div class="service-left">
+        <span class="service-index">03</span>
+        <div class="service-info"><strong>VIP 1:1 Coaching</strong><span>Monthly · Daily access + in-person or live video sessions</span></div>
+      </div>
+      <div class="service-right">
+        <span class="service-price">$449/mo</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+    <div class="service-row">
+      <div class="service-left">
+        <span class="service-index">04</span>
+        <div class="service-info"><strong>Nutrition Plan Only</strong><span>One-time · Macro targets, meal structure, supplement guide</span></div>
+      </div>
+      <div class="service-right">
+        <span class="service-price">$89</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="section-tag">Merch & Supplements</div>
+  <h2 class="section-title">The XTREME Store</h2>
+  <p class="section-sub">Gear you'll actually use. Supplements that actually work.</p>
+  <div class="shop-grid">
+    <div class="shop-card">
+      <div class="shop-img">👕</div>
+      <div class="shop-info">
+        <div class="shop-name">XTREME Training Tee</div>
+        <div class="shop-price">$35</div>
+        <button class="shop-btn">Add to Cart</button>
+      </div>
+    </div>
+    <div class="shop-card">
+      <div class="shop-img">🧢</div>
+      <div class="shop-info">
+        <div class="shop-name">Snapback Cap</div>
+        <div class="shop-price">$28</div>
+        <button class="shop-btn">Add to Cart</button>
+      </div>
+    </div>
+    <div class="shop-card">
+      <div class="shop-img">💊</div>
+      <div class="shop-info">
+        <div class="shop-name">Pre-Workout Formula</div>
+        <div class="shop-price">$52</div>
+        <button class="shop-btn">Add to Cart</button>
+      </div>
+    </div>
+    <div class="shop-card">
+      <div class="shop-img">🥤</div>
+      <div class="shop-info">
+        <div class="shop-name">Whey Protein (2lbs)</div>
+        <div class="shop-price">$65</div>
+        <button class="shop-btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-tag">Social Proof</div>
+  <h2 class="section-title">What Clients Say</h2>
+  <p class="section-sub" style="margin:0 auto 3rem;">Don't take our word for it.</p>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"I've tried 4 other trainers. Jordan is the only one who actually adjusted the plan when I hit a plateau. That attention to detail is everything."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">AL</div>
+        <div><div class="testi-name">Alicia L.</div><div class="testi-meta">Online Coaching · 6 months</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The Foundation 12 program changed my entire relationship with the gym. Clear, progressive, and it works. I'm now on Power Block."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">BK</div>
+        <div><div class="testi-name">Ben K.</div><div class="testi-meta">Foundation 12 → Power Block</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The VIP coaching is worth every dollar. Having daily access to message Jordan makes you feel like you have a coach in your corner 24/7."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SM</div>
+        <div><div class="testi-name">Sofia M.</div><div class="testi-meta">VIP 1:1 Coaching · 3 months</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag">Get Started</div>
+  <h2 class="section-title" style="color:var(--black);">Ready to Start?</h2>
+  <p class="contact-sub">Book a free 20-minute intro call and let's build your plan.</p>
+  <div class="contact-form">
+    <div class="contact-row">
+      <input type="text" placeholder="Your name"/>
+      <input type="email" placeholder="Email address"/>
+    </div>
+    <input type="text" placeholder="What's your goal? (e.g. lose fat, build muscle)"/>
+    <textarea placeholder="Tell me where you're at and what you need…"></textarea>
+    <button type="button">Book a Free Call →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">XTREME<span>.</span>FIT</div>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#programs">Programs</a>
+    <a href="#services">Coaching</a>
+    <a href="#shop">Shop</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 XTREME Fit. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
